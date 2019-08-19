@@ -1,7 +1,7 @@
 {
-  "name": "consistenthashing",
+  "name": "consistenthashing-redis",
   "version": "1.0.0",
-  "description": "一致性hash",
+  "description": "利用hash一致性把不同分类的数据，存储到redis集群中，把分类名称作为hash一致性的 key",
   "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/zhangwinning/consistentHashing#readme",
   "dependencies": {
-    "crypto": "^1.0.1"
+    "assert": "^2.0.0",
+    "crypto": "^1.0.1",
+    "redis": "^2.8.0"
   }
 }
