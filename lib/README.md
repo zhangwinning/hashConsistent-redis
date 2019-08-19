@@ -16,7 +16,7 @@
 
 2、然后把这4台机器通过计算 hash 值在相应的环上找到相应的位置，如图所示
 
-![hash-ring](https://github.com/zhangwinning/hashConsistent-redis/tree/master/assert/hashRing.png)
+![hash-ring](https://github.com/zhangwinning/hashConsistent-redis/blob/master/assert/hashRing.png)
 
 3、给你一个任意 key，如果计算范围是在红色区域之内，则是机器1负责，就把该数据放到机器1上。同理，机器2、3、4也是相同的逻辑。
 
@@ -27,11 +27,11 @@
 比如现在增加一台机器5，我们通过 hash 值计算是在机器1、4之间，接下来要移动的数据就是把机器1的部分数据移到机器5上。其余机器的数据不变，这和通过
 取模运算移动全部数据相比，效率是大大提升的。
 
-![add-machine](https://github.com/zhangwinning/hashConsistent-redis/tree/master/assert/WX20190819-174842@2x.png)
+![add-machine](https://github.com/zhangwinning/hashConsistent-redis/blob/master/assert/WX20190819-174842%402x.png)
 
 比如现在机器2出现了问题，把机器2的数据迁移到机器3上去，其余机器不收影响。
 
-![remove-machine](https://github.com/zhangwinning/hashConsistent-redis/tree/master/assert/WX20190819-175933@2x.png)
+![remove-machine](https://github.com/zhangwinning/hashConsistent-redis/blob/master/assert/WX20190819-175933%402x.png)
 
 二、负载均衡
 在实际应用中，每个服务器可以映射到多个节点到 hash 环上，这些节点称之为**虚拟节点**。
