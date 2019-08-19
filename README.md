@@ -1,17 +1,26 @@
 # 利用hash一致性把不同分类的数据，存储到redis集群, 把不同的分类作为hash一致性的key 。
 
-在分布式开发中，往往需要把数据分开存储。既然是分开存储，每个分片中可能就存储整个数据的一部分了。这种情况下，如果添加一个数据、或者删除一个数据
-可以使用取模操作。
-比如现在有4台存储机器，就可以把需要操作的数据先取hash值，为什么要取hash值，因为hash函数具有随机性、均匀性。可以使得存储的数据取完hash值后，很
-均匀的分布在一个区域内。
-比如添加 A 字符。   (hash(A) %   4)    这样就可以得出 A 字符放在哪台机器了。
+example:
+```
+    const MultiRedis = require('../lib/redis')
+    const address = [
+        { host: '127.0.0.1', port: 6379 },
+        { host: '127.0.0.1', port: 6380 }
+    ];
+    const redises = new MultiRedis(address)
+    const key = '分组'
+    const client = redises.client(key)
+    client.set('002', 'test01')
 
-一致性 hash
+    client.get('002', (err, value) => {
+        assert(value, 'test01')
+        process.exit(0)
+    })
+```
 
-本文按照实现的一致性hash算法。
+redis 分布式集群存储是通过计算每个存储值的hash值查找server。本文通过每个分组作为key进行hash 计算从hash ring 中查找。
 
-并且实现一个demo。用 hash 一致性分发数据到不同的redis 实例。
+对于**分类比较多**的热缓存数据来说，可以使用。
 
-
-
-参考 golang 语言实现一致性hash 算法。
+本质上原理是利用的[一致性hash](https://github.com/zhangwinning/hashConsistent-redis/blob/master/lib/README.md)，
+上文是通过简短代码实现的一致性hash原理。
